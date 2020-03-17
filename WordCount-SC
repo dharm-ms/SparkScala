@@ -1,0 +1,15 @@
+package learning
+import org.apache.spark.{SparkConf, SparkContext}
+
+object WordCount {
+
+  def main(args:Array[String]): Unit =
+  {
+
+    val conf = new SparkConf().setMaster("local").setAppName("WodCount App")
+    val sc = new SparkContext(conf)
+    val rdd1 = sc.textFile("/home/cloudera/dhar/emp.txt")
+    val cnt =rdd1.flatMap(line => line.split(",") ).map(wd => (wd,1)).reduceByKey(_+_)
+    cnt.foreach(line => println(line))
+  }
+}
